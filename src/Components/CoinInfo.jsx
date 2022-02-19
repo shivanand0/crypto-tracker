@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { HistoricalChart } from "../Config/api";
-// import { Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS } from 'chart.js/auto'
 import {
   CircularProgress,
   createTheme,
@@ -9,6 +10,8 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import { CryptoState } from "../CryptoContext";
+import { chartDays } from "../Config/data";
+import SelectButton from "./SelectButton";
 
 const CoinInfo = ({ coin }) => {
   const [historicData, setHistoricData] = useState();
@@ -55,6 +58,7 @@ const CoinInfo = ({ coin }) => {
     },
   });
 
+  // console.log("data",historicData)
   return (
     <ThemeProvider theme={darkTheme}>
       <div className={classes.container}>
@@ -69,8 +73,59 @@ const CoinInfo = ({ coin }) => {
             ) : 
             (
                 <>
-                chart*
-                    {/* <Line /> */}
+                    <Line 
+
+                      data={{
+                        labels: historicData.map((coin) => {
+                          let date = new Date(coin[0]);
+                          let time = 
+                              date.getHours() > 12
+                              ? `${date.getHours() -12}:${date.getMinutes()} PM`
+                              : `${date.getHours()}:${date.getMinutes()} AM`;
+                          // console.log(time)
+                          return days === 1 ? time : date.toLocaleDateString();
+                        }),
+
+                        datasets: [
+                          {
+                            data: historicData.map((coin) => coin[1]),
+                            label: `Price ( Past ${days} Days ) in ${currency}`,
+                            borderColor: "#EEBC1D",
+                            pointStyle: "pointer"
+                          }
+                        ]
+                      }}  
+
+                      options={{
+                        elements: {
+                          point: {
+                            radius: 1,
+                          },
+                        },
+                      }}
+
+                    />
+
+                  <div
+                    style={{
+                      display: "flex",
+                      marginTop: 20,
+                      justifyContent: "space-around",
+                      width: "100%",
+                    }}
+                  >
+                    {chartDays.map((day) => (
+                      <SelectButton
+                        key={day.value}
+                        onClick={() => {setDays(day.value);
+                          setflag(false);
+                        }}
+                        selected={day.value === days}
+                      >
+                        {day.label}
+                      </SelectButton>
+                    ))}
+                  </div>
                 </>
             )
         }

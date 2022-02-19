@@ -6,8 +6,11 @@ import axios from "axios";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import { numberWithCommas } from "../Components/CoinsTable";
 import CoinInfo from "../Components/CoinInfo";
+import parse from 'html-react-parser';
 
 const CoinPage = () => {
+  const parse = require('html-react-parser');
+  
   const { id } = useParams();
   const [coin, setCoin] = useState();
   const { currency, symbol } = CryptoState();
@@ -94,7 +97,7 @@ const CoinPage = () => {
             {coin?.name}
           </Typography>
           <Typography variant="subtitle1" className={classes.description}>
-            {coin?.description.en.split(". ")[0]}
+            {parse(coin?.description.en.split(". ")[0])}
           </Typography>
           <div className={classes.marketData}>
             <span style={{ display: "flex" }}>
