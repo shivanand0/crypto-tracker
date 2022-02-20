@@ -11,6 +11,7 @@ import Home from "./Pages/Home";
 import Error from "./Pages/Error";
 import CoinPage from "./Pages/CoinPage";
 import { makeStyles } from "@material-ui/core";
+import Alert from './Components/Alert';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
 
           <Route path="*" element={<Error />} />
         </Routes>
+        <Alert />
       </Router>
     </div>
   );

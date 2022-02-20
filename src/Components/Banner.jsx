@@ -4,6 +4,7 @@ import React from "react";
 import Carousel from '../Components/Carousel';
 
 const Banner = () => {
+  
   const useStyles = makeStyles(() => ({
     banner: {
       backgroundImage: "url(./img/bannerimg.jpg)",
